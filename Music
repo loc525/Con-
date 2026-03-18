@@ -1,0 +1,58 @@
+repeat task.wait() until game.Players.LocalPlayer
+
+local player = game.Players.LocalPlayer
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "MusicPlayer"
+
+-- khung chính (nhỏ lại)
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 220, 0, 110)
+frame.Position = UDim2.new(0.5, -110, 0.5, -55)
+frame.BackgroundColor3 = Color3.fromRGB(25,25,25)
+frame.Active = true
+frame.Draggable = true
+
+-- ô nhập
+local box = Instance.new("TextBox", frame)
+box.Size = UDim2.new(0, 180, 0, 30)
+box.Position = UDim2.new(0, 20, 0, 10)
+box.PlaceholderText = "ID nhạc..."
+box.Text = ""
+box.TextScaled = true
+
+-- nút play
+local playBtn = Instance.new("TextButton", frame)
+playBtn.Size = UDim2.new(0, 80, 0, 30)
+playBtn.Position = UDim2.new(0, 20, 0, 60)
+playBtn.Text = "Play"
+playBtn.TextScaled = true
+
+-- nút stop
+local stopBtn = Instance.new("TextButton", frame)
+stopBtn.Size = UDim2.new(0, 80, 0, 30)
+stopBtn.Position = UDim2.new(0, 120, 0, 60)
+stopBtn.Text = "Stop"
+stopBtn.TextScaled = true
+
+-- sound
+local sound = Instance.new("Sound")
+sound.Volume = 2 -- nhỏ lại luôn
+sound.Looped = true
+sound.Parent = workspace
+
+-- lấy ID
+local function getId(text)
+	return text:match("%d+")
+end
+
+playBtn.MouseButton1Click:Connect(function()
+	local id = getId(box.Text)
+	if id then
+		sound.SoundId = "rbxassetid://"..id
+		sound:Play()
+	end
+end)
+
+stopBtn.MouseButton1Click:Connect(function()
+	sound:Stop()
+end)
